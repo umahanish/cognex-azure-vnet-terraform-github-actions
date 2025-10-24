@@ -7,6 +7,12 @@ resource "azurerm_resource_group" "rg" {
   name     = var.resource_group_name
   location = var.location
 }
+resource "random_string" "suffix" {
+  length  = 6
+  upper   = false
+  special = false
+}
+
 
 # Storage Account for Terraform state
 resource "azurerm_storage_account" "tfstate" {
@@ -15,14 +21,11 @@ resource "azurerm_storage_account" "tfstate" {
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
+  enable_https_traffic_only = true
 
-  # Optional: enable blob versioning for state safety
   blob_properties {
     versioning_enabled = true
   }
-
-  # Optional: enable infrastructure encryption
-  enable_https_traffic_only = true
 }
 
 # Blob Container for storing Terraform state
