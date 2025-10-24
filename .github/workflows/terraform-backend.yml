@@ -24,8 +24,8 @@ jobs:
         run: terraform init
         working-directory: ./terraform/backend-bootstrap
 
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
+      - name: Terraform Apply with storage_account_name
+        run: terraform apply -auto-approve -var="storage_account_name=cognexgithubaction"
         working-directory: ./terraform/backend-bootstrap
 
       - name: Capture Terraform Outputs
