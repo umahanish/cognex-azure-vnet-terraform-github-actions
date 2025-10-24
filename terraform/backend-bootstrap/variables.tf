@@ -1,13 +1,9 @@
 variable "resource_group_name" {
-  default = "rg-dev"
+  default = "rg-tfstate"
 }
 
 variable "location" {
   default = "East US"
-}
-
-variable "storage_account_name" {
-  default = "tfstate${random_string.suffix.result}"
 }
 
 variable "container_name" {
