@@ -1,0 +1,7 @@
+resource_group_name = "rg-dev"
+location            = "East US"
+vnet_name           = "vnet-dev"
+vnet_address_space  = "10.0.0.0/16"
+subnet_web_prefix   = "10.0.1.0/24"
+subnet_app_prefix   = "10.0.2.0/24"
+subnet_db_prefix    = "10.0.3.0/24"

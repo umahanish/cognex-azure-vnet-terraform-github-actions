@@ -1,10 +1,16 @@
 name: Deploy Azure VNet with Terraform
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment (e.g., dev, prod)'
+        required: true
+        default: 'dev'
+      auto_approve:
+        description: 'Auto-approve Terraform apply'
+        required: true
+        default: 'true'
 
 jobs:
   terraform:
@@ -19,7 +25,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -33,9 +39,14 @@ jobs:
         working-directory: ./terraform
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        run: terraform plan -var-file="${{ github.event.inputs.environment }}.tfvars" -out=tfplan
         working-directory: ./terraform
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
+        run: |
+          if [ "${{ github.event.inputs.auto_approve }}" == "true" ]; then
+            terraform apply -auto-approve tfplan
+          else
+            terraform apply tfplan
+          fi
         working-directory: ./terraform
