@@ -7,5 +7,14 @@ variable "location" {
 }
 
 variable "container_name" {
-  default = "tfstate"
+  description = "Name of the blob container for Terraform state"
+  type        = string
+  default     = "tfstate"
 }
+
+variable "environment" {
+  description = "Deployment environment (e.g., dev, prod)"
+  type        = string
+  default     = "dev"
+}
+
